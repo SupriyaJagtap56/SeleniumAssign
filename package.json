@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:fe": "open-cli src/login.html",
     "start:be": "nodemon src/server.js",
-    "start": "npm-run-all start:fe start:be"
+    "start": "npm-run-all start:be"
   },
   "author": "",
   "license": "ISC",

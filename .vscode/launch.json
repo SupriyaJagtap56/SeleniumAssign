@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open login.html",
-            "file": "/Users/I527312/MtechStudy/AllStudentsLec/SeleniumAssign/src/login.html"
+            "name": "Open index.html",
+            "file": "/Users/I527312/MtechStudy/AllStudentsLec/SeleniumAssign/src/index.html"
         },
         {
             "command": "npm start",
