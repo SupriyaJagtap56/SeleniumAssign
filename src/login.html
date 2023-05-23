@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login and Registration</title>
+    <style>
+      .container {
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Login</h2>
+      <input type="text" id="loginUsername" placeholder="Username" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button onclick="login()">Login</button>
+
+      <h2>Register</h2>
+      <input type="text" id="registerUsername" placeholder="Username" />
+      <input type="password" id="registerPassword" placeholder="Password" />
+      <button onclick="register()">Register</button>
+    </div>
+
+    <script>
+      function login() {
+        var username = document.getElementById("loginUsername").value;
+        var password = document.getElementById("loginPassword").value;
+
+        // Perform login validation (you can customize this part)
+        fetch("http://localhost:3000/login", {
+          body: JSON.stringify({ username, password }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((data) => {
+            if (+data.status !== 200) {
+              alert("Login failed");
+              return;
+            }
+            alert("Login Success");
+          })
+          .catch(() => {
+            alert("Login failed");
+          });
+      }
+
+      function register() {
+        var username = document.getElementById("registerUsername").value;
+        var password = document.getElementById("registerPassword").value;
+
+        fetch("http://localhost:3000/register", {
+          body: JSON.stringify({ username, password }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          // .then((data) => data.json())
+          .then((data) => {
+            console.log({ data: data });
+            if (+data.status !== 200) {
+              alert("Failed registering user: " + username);
+              return;
+            }
+            alert(`Registered new User: ${username}`);
+          })
+          .catch(() => {
+            alert("Registration failed");
+          });
+      }
+    </script>
+  </body>
+</html>
