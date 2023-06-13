@@ -23,19 +23,24 @@
   </head>
   <body>
     <div class="container">
-      <h2>Login</h2>
-      <input type="text" id="loginUsername" placeholder="Username" />
-      <input type="password" id="loginPassword" placeholder="Password" />
-      <button onclick="login()">Login</button>
+      <form onsubmit="login(event)">
+        <h2>Login</h2>
+        <input type="text" id="loginUsername" placeholder="Username" />
+        <input type="password" id="loginPassword" placeholder="Password" />
+        <button>Login</button>
+      </form>
 
-      <h2>Register</h2>
-      <input type="text" id="registerUsername" placeholder="Username" />
-      <input type="password" id="registerPassword" placeholder="Password" />
-      <button onclick="register()">Register</button>
+      <form onsubmit="register(event)">
+        <h2>Register</h2>
+        <input type="text" id="registerUsername" placeholder="Username" />
+        <input type="password" id="registerPassword" placeholder="Password" />
+        <button>Register</button>
+      </form>
     </div>
 
     <script>
-      function login() {
+      function login(e) {
+        e.preventDefault();
         var username = document.getElementById("loginUsername").value;
         var password = document.getElementById("loginPassword").value;
 
@@ -47,19 +52,24 @@
             "Content-Type": "application/json",
           },
         })
-          .then((data) => {
+          .then(async (data) => {
+            console.log();
             if (+data.status !== 200) {
-              alert("Login failed");
+              const message =
+                (await data.json()).data || "Something went wrong";
+              alert(message);
               return;
             }
             alert("Login Success");
           })
-          .catch(() => {
-            alert("Login failed");
+          .catch((err) => {
+            console.log(err.data);
+            alert(err.data);
           });
       }
 
-      function register() {
+      function register(e) {
+        e.preventDefault();
         var username = document.getElementById("registerUsername").value;
         var password = document.getElementById("registerPassword").value;
 
@@ -70,17 +80,18 @@
             "Content-Type": "application/json",
           },
         })
-          // .then((data) => data.json())
-          .then((data) => {
+          .then(async (data) => {
             console.log({ data: data });
             if (+data.status !== 200) {
-              alert("Failed registering user: " + username);
+              const message =
+                (await data.json()).data || "Something went wrong";
+              alert(message);
               return;
             }
-            alert(`Registered new User: ${username}`);
+            alert(`Registered a new user: ${username}`);
           })
-          .catch(() => {
-            alert("Registration failed");
+          .catch((err) => {
+            alert(err.data);
           });
       }
     </script>

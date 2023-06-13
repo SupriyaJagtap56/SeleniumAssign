@@ -5,16 +5,23 @@
   "main": "index.js",
   "scripts": {
     "start:be": "nodemon src/server.js",
-    "start": "npm-run-all start:be"
+    "start": "npm-run-all start:be",
+    "test": "node test/Selenium.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.2.0",
+    "chrome": "^0.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "email-validator": "^2.0.4",
     "express": "^4.18.2",
+    "firefox": "^0.0.1",
     "mongodb": "^5.5.0",
     "mongoose": "^7.2.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "selenium-webdriver": "^4.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
