@@ -25,14 +25,14 @@
     <div class="container">
       <form onsubmit="login(event)">
         <h2>Login</h2>
-        <input type="text" id="loginUsername" placeholder="Username" />
+        <input type="text" id="loginEmail" placeholder="Email" />
         <input type="password" id="loginPassword" placeholder="Password" />
         <button>Login</button>
       </form>
 
       <form onsubmit="register(event)">
         <h2>Register</h2>
-        <input type="text" id="registerUsername" placeholder="Username" />
+        <input type="text" id="registerEmail" placeholder="Email" />
         <input type="password" id="registerPassword" placeholder="Password" />
         <button>Register</button>
       </form>
@@ -41,12 +41,12 @@
     <script>
       function login(e) {
         e.preventDefault();
-        var username = document.getElementById("loginUsername").value;
+        var email = document.getElementById("loginEmail").value;
         var password = document.getElementById("loginPassword").value;
 
         // Perform login validation (you can customize this part)
         fetch("http://localhost:3000/login", {
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ email, password }),
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -70,11 +70,11 @@
 
       function register(e) {
         e.preventDefault();
-        var username = document.getElementById("registerUsername").value;
+        var email = document.getElementById("registerEmail").value;
         var password = document.getElementById("registerPassword").value;
 
         fetch("http://localhost:3000/register", {
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ email, password }),
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@
               alert(message);
               return;
             }
-            alert(`Registered a new user: ${username}`);
+            alert(`Registered a new user: ${email}`);
           })
           .catch((err) => {
             alert(err.data);

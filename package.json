@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:be": "nodemon src/server.js",
     "start": "npm-run-all start:be",
+    "start:be": "nodemon src/server.js",
     "test": "node test/Selenium.js"
   },
   "author": "",

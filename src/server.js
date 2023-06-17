@@ -32,20 +32,20 @@ mongoose
   });
 
 const User = mongoose.model("User", {
-  username: String,
+  email: String,
   password: String,
 });
 
 app.use(express.static(__dirname));
 // Routes
 app.post("/register", (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   console.log(req.body);
 
-  const errorResponse = validateUserInput(username, password, res);
+  const errorResponse = validateUserInput(email, password, res);
   if (errorResponse) return errorResponse;
 
-  const isValidEmail = validator.validate(username);
+  const isValidEmail = validator.validate(email);
   if (!isValidEmail) return send404Error(res, "Please enter a valid email");
 
   if (password.length < 8)
@@ -58,7 +58,7 @@ app.post("/register", (req, res) => {
     );
 
   // Create a new user
-  const newUser = new User({ username, password });
+  const newUser = new User({ email, password });
 
   // Save the user to the database
   newUser
@@ -80,44 +80,35 @@ function send404Error(res, message) {
   return res.status(404).send({ data: message });
 }
 
-function validateUserInput(username, password, res) {
-  if (!username && !password)
-    return send404Error(res, "Please provide username and password");
+function validateUserInput(email, password, res) {
+  if (!email && !password)
+    return send404Error(res, "Please provide email and password");
 
-  if (!username) return send404Error(res, "Please provide the username");
+  if (!email) return send404Error(res, "Please provide the email");
 
-  if (username.length > 40)
-    return send404Error(
-      res,
-      "Username/Email should not be more than 40 characters"
-    );
+  if (email.length > 40)
+    return send404Error(res, "Email should not be more than 40 characters");
 
   if (!password) return send404Error(res, "Please provide the password");
 
-  if (/\s/.test(username))
-    return send404Error(res, "Username cannot include spaces");
+  if (/\s/.test(email)) return send404Error(res, "Email cannot include spaces");
 
-  const isValidEmail = validator.validate(username);
+  const isValidEmail = validator.validate(email);
   if (!isValidEmail) return send404Error(res, "Please enter a valid email");
 }
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   console.log(req.body);
   try {
-    const errorResponse = validateUserInput(username, password, res);
+    const errorResponse = validateUserInput(email, password, res);
     if (errorResponse) return errorResponse;
 
-    const userFromUsername = await User.find({ username });
-    if (!userFromUsername.length)
-      return send404Error(
-        res,
-        `Could not find a user with username: ${username}`
-      );
+    const userFromEmail = await User.find({ email });
+    if (!userFromEmail.length)
+      return send404Error(res, `Could not find a user with email: ${email}`);
 
-    const userWithUserPass = userFromUsername.find(
-      (u) => u.password === password
-    );
+    const userWithUserPass = userFromEmail.find((u) => u.password === password);
     if (userWithUserPass) {
       return res.status(200).send("Login successful");
     } else {
@@ -130,10 +121,10 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/delete", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   console.log(req.body);
   try {
-    const userWithUserPass = await User.deleteOne({ username, password });
+    const userWithUserPass = await User.deleteOne({ email, password });
 
     if (userWithUserPass) {
       res.status(204).send("Delete successful");
